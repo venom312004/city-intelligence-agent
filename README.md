@@ -7,7 +7,7 @@
 [![Mistral AI](https://img.shields.io/badge/LLM-Mistral%20AI-FF7000.svg)](https://mistral.ai/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-🔴 **Live Demo:** (https://city-intelligence-agent-pranjal-pandey-2003.streamlit.app/)
+🔴 **Live Demo:** https://city-intelligence-agent-pranjal-pandey-2003.streamlit.app/
 
 ---
 
