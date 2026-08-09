@@ -68,9 +68,9 @@ def get_news(city: str) -> str:
     """Get latest news about the city."""
     tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
     response = tavily_client.search(
-        query=f"latest news in {city}",
-        search_depth="basic",
-        max_results=3,
+        query=f"{city} news today latest headlines",
+        search_depth="advanced",
+        max_results=5,
     )
     results = response.get("results", [])
     if not results:
