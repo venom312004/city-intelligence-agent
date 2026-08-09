@@ -1,89 +1,136 @@
-# 🔗 LangChain Runnables & Agents
+# 🌆 City Intelligence System
 
-*A hands-on exploration of LangChain's core building blocks — from LCEL runnables to tool calling and autonomous agents.*
+**Agentic City Assistant — Weather · News · Human-in-the-Loop Tool Approval**
 
-[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
-[![LangChain](https://img.shields.io/badge/LangChain-LCEL%20%7C%20Agents-1C3C3C.svg)](https://www.langchain.com/)
-[![Mistral AI](https://img.shields.io/badge/LLM-Mistral%20AI-FF7000.svg)](https://mistral.ai/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
-🔴 **Live Demo:** https://city-intelligence-agent-pranjal-pandey-2003.streamlit.app/
+City Intelligence System is an agentic AI assistant that answers questions about any city's current weather and latest news. Built on LangGraph, it pauses before every tool call and asks for human approval — giving users full visibility and control over what the agent does before it acts.
 
 ---
 
-## 📖 Overview
+## 🔗 Links
 
-This repo is a practical reference for how LangChain composes prompts, models, parsers, and tools into pipelines and agentic workflows — built while learning LangChain fundamentals from the ground up, using **Mistral AI** as the LLM backend.
+- **Live App:** [city-intelligence-agent.streamlit.app](https://city-intelligence-agent-pranjal-pandey-2003.streamlit.app/)
 
-## 📂 Project Structure
+---
 
-| File | Concept Covered |
-|---|---|
-| `sequence_runnable.py` | Basic LCEL chain — `prompt \| model \| parser` — the core sequential runnable pattern |
-| `runnable_passthrough.py` | `RunnablePassthrough` for forwarding inputs unchanged through a chain |
-| `parallel_runnables.py` | `RunnableParallel` — running multiple chains concurrently and merging outputs |
-| `custom_tool.py` | Defining custom tools with the `@tool` decorator for agent use |
-| `tool_calling.py` | Binding tools to a model and handling tool-call responses |
-| `Agents.py` | Building agents with `create_agent` and reasoning over tool outputs |
-| `auto_agents.py` | Autonomous agent execution without manual intervention |
-| `news_summarizer.py` | Applied mini-project — fetching and summarizing news using an LLM chain |
-| `app.py` | Entry point / demo runner tying the concepts together |
-| `requirements.txt` | Project dependencies |
+## 📌 Description
 
-## ✨ Key Concepts Demonstrated
+This project demonstrates a production-style **human-in-the-loop (HITL) agentic workflow** using LangGraph's `interrupt()` and checkpointer system — the correct way to pause a `create_agent()` run mid-execution inside a stateless, re-running Streamlit app (where a plain Python `input()` simply cannot work).
 
-- **LCEL (LangChain Expression Language)** — declarative chain composition with `|`
-- **Runnables** — `RunnableSequence`, `RunnableParallel`, `RunnablePassthrough`
-- **Tool Calling** — custom tools bound to LLMs for structured actions
-- **Agents** — reasoning loops that decide which tools to call and when
+Ask a question like *"weather and news in Mumbai"*, and the agent decides which tools to call (`get_weather`, `get_news`), then **stops and shows an approval card** for each tool call before executing it. Approve or deny each one individually, and the agent resumes exactly where it left off — powered by Mistral AI as the reasoning engine.
+
+---
+
+## ✨ Features
+
+- 🌤️ **Live Weather Lookup** — real-time conditions for any city via OpenWeatherMap
+- 📰 **Latest News Search** — current headlines and summaries via Tavily Search
+- 🛑 **Human-in-the-Loop Approval** — every tool call pauses for explicit user approval/denial before running
+- 🔀 **Auto-Approve Toggle** — switch off approval mode for instant, uninterrupted responses
+- 🧵 **Per-Session Memory** — isolated conversation threads via LangGraph's checkpointer
+- 🗨️ **Multi-Tool Requests** — handles compound queries (e.g. "weather and news") by walking through each pending approval in sequence
+- 🎨 **Clean Streamlit Chat UI** with sidebar quick-prompts and new-conversation reset
+
+---
 
 ## 🛠️ Tech Stack
 
-- **LangChain** (LCEL, Runnables, Agents, Tools)
-- **Mistral AI** (`langchain-mistralai`) as the LLM provider
-- **Python 3.11**
+| Layer | Technology |
+|---|---|
+| Frontend | Streamlit (chat UI) |
+| Agent Orchestration | LangGraph (`create_agent`, `interrupt()`, `Command`) |
+| LLM Provider | Mistral AI (`langchain-mistralai`, `mistral-small`) |
+| Middleware | Custom `wrap_tool_call` for HITL approval |
+| State Management | LangGraph `InMemorySaver` checkpointer |
+| Weather Data | OpenWeatherMap API |
+| News Data | Tavily Search API |
+| Deployment | Streamlit Community Cloud |
 
-## 🚀 Setup
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python ≥ 3.11
+- Mistral AI API key
+- OpenWeatherMap API key
+- Tavily API key
+
+### Installation
 
 ```bash
-git clone https://github.com/venom312004/langchain-runnables-agents.git
-cd langchain-runnables-agents
+git clone https://github.com/venom312004/city-intelligence-agent.git
+cd city-intelligence-agent
 
 # create and activate a virtual environment
 uv venv
-.venv\Scripts\activate   # Windows PowerShell
+.venv\Scripts\activate     # Windows
+# source .venv/bin/activate  # macOS/Linux
 
 # install dependencies
 uv pip install -r requirements.txt
 ```
 
-Create a `.env` file in the root with your API key:
+### Environment Variables
 
+Create a `.env` file in the project root:
+
+```env
+MISTRAL_API_KEY=your_mistral_api_key
+OPENWEATHER_API_KEY=your_openweather_api_key
+TAVILY_API_KEY=your_tavily_api_key
 ```
-MISTRAL_API_KEY=your_key_here
-```
 
-> ⚠️ `.env` is git-ignored — never commit real API keys.
-
-## ▶️ Running
-
-Each script is standalone — run any file directly to see that concept in action:
+### Run Locally
 
 ```bash
-python sequence_runnable.py
-python Agents.py
+streamlit run app.py
 ```
-
-## 🎯 Why This Repo
-
-Built as part of my path toward mastering **GenAI and agentic AI systems** — connecting core LangChain primitives to real, applied workflows before moving on to production-grade multi-agent projects.
-
-## 👤 Author
-
-**Pranjal Pandey**
-B.Tech, Data Science & AI
-[GitHub](https://github.com/venom312004) · [LinkedIn](#)
 
 ---
 
-⭐ If this helped you understand LangChain runnables or agents, consider giving it a star!
+## 🧠 How the Human-in-the-Loop Flow Works
+
+1. User asks a question (e.g. *"weather in Delhi"*)
+2. The agent decides to call `get_weather`, and LangGraph's `interrupt()` pauses execution
+3. Streamlit renders an **approval card** showing the tool name and arguments
+4. User clicks **✅ Approve** or **❌ Deny**
+5. The agent **resumes** from the exact interruption point via `Command(resume=...)` — no state is lost
+6. If multiple tools are requested at once, the UI walks through each approval one at a time before resuming
+
+This pattern solves a real constraint: Streamlit has no persistent stdin and re-runs the whole script on every interaction, so a naive `input()`-based approval loop is impossible. `interrupt()` + a checkpointer is the correct fix.
+
+---
+
+## 📁 Project Structure
+
+```
+city-intelligence-agent/
+├── app.py                  # Streamlit UI, agent setup, HITL approval flow
+├── requirements.txt
+└── .gitignore
+```
+
+---
+
+## ⚠️ Known Limitations
+
+- Uses an **in-memory checkpointer**, so conversation state resets if the app restarts or reboots.
+- Weather and news lookups depend on external free-tier APIs (OpenWeatherMap, Tavily) — rate limits may apply.
+- Free-tier cloud hosting may briefly delay responses during cold starts.
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+## 🙌 Acknowledgements
+
+- [LangGraph](https://www.langchain.com/langgraph)
+- [LangChain](https://www.langchain.com/)
+- [Mistral AI](https://mistral.ai/)
+- [OpenWeatherMap](https://openweathermap.org/)
+- [Tavily](https://tavily.com/)
+- [Streamlit](https://streamlit.io/)
