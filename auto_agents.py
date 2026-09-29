@@ -5,7 +5,7 @@ load_dotenv()
 import os
 import requests
 
-from langchain_mistralai import ChatMistralAI
+from langchain_cohere import ChatCohere
 from langchain.tools import tool
 from langchain_core.messages import HumanMessage,ToolMessage
 from tavily import TavilyClient
@@ -65,7 +65,7 @@ def get_news(city: str) -> str:
 # LLM SETUP
 # ─────────────────────────────────────────
 
-llm = ChatMistralAI(model="mistral-small-2506")
+llm = ChatCohere(model="command-a-03-2025", temperature=0, max_retries=1, timeout=30)
 
 @wrap_tool_call
 def human_approval(request,handler):

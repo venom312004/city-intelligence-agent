@@ -17,7 +17,7 @@ import requests
 import streamlit as st
 from dotenv import load_dotenv
 
-from langchain_mistralai import ChatMistralAI
+from langchain_cohere import ChatCohere
 from langchain.tools import tool
 from langchain_core.messages import ToolMessage
 from langchain.agents import create_agent
@@ -111,7 +111,7 @@ def human_approval(request, handler):
 # ─────────────────────────────────────────
 @st.cache_resource
 def get_agent():
-    llm = ChatMistralAI(model="mistral-small-2506")
+    llm = ChatCohere(model="command-a-03-2025", temperature=0, max_retries=1, timeout=30)
     checkpointer = InMemorySaver()
     return create_agent(
         llm,
