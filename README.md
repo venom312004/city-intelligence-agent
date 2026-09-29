@@ -16,7 +16,7 @@ City Intelligence System is an agentic AI assistant that answers questions about
 
 This project demonstrates a production-style **human-in-the-loop (HITL) agentic workflow** using LangGraph's `interrupt()` and checkpointer system — the correct way to pause a `create_agent()` run mid-execution inside a stateless, re-running Streamlit app (where a plain Python `input()` simply cannot work).
 
-Ask a question like *"weather and news in Mumbai"*, and the agent decides which tools to call (`get_weather`, `get_news`), then **stops and shows an approval card** for each tool call before executing it. Approve or deny each one individually, and the agent resumes exactly where it left off — powered by Mistral AI as the reasoning engine.
+Ask a question like *"weather and news in Mumbai"*, and the agent decides which tools to call (`get_weather`, `get_news`), then **stops and shows an approval card** for each tool call before executing it. Approve or deny each one individually, and the agent resumes exactly where it left off — powered by Cohere as the reasoning engine.
 
 ---
 
@@ -38,7 +38,7 @@ Ask a question like *"weather and news in Mumbai"*, and the agent decides which 
 |---|---|
 | Frontend | Streamlit (chat UI) |
 | Agent Orchestration | LangGraph (`create_agent`, `interrupt()`, `Command`) |
-| LLM Provider | Mistral AI (`langchain-mistralai`, `mistral-small`) |
+| LLM Provider | Cohere (`langchain-cohere`, `command-a-03-2025`) |
 | Middleware | Custom `wrap_tool_call` for HITL approval |
 | State Management | LangGraph `InMemorySaver` checkpointer |
 | Weather Data | OpenWeatherMap API |
@@ -51,7 +51,7 @@ Ask a question like *"weather and news in Mumbai"*, and the agent decides which 
 
 ### Prerequisites
 - Python ≥ 3.11
-- Mistral AI API key
+- Cohere API key
 - OpenWeatherMap API key
 - Tavily API key
 
@@ -75,7 +75,7 @@ uv pip install -r requirements.txt
 Create a `.env` file in the project root:
 
 ```env
-MISTRAL_API_KEY=your_mistral_api_key
+COHERE_API_KEY=your_cohere_api_key
 OPENWEATHER_API_KEY=your_openweather_api_key
 TAVILY_API_KEY=your_tavily_api_key
 ```
@@ -130,7 +130,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 - [LangGraph](https://www.langchain.com/langgraph)
 - [LangChain](https://www.langchain.com/)
-- [Mistral AI](https://mistral.ai/)
+- [Cohere](https://cohere.com/)
 - [OpenWeatherMap](https://openweathermap.org/)
 - [Tavily](https://tavily.com/)
 - [Streamlit](https://streamlit.io/)

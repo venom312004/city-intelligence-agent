@@ -31,7 +31,7 @@ load_dotenv()
 # ─────────────────────────────────────────
 # Pull secrets from Streamlit Cloud if not already in env (local .env still works)
 # ─────────────────────────────────────────
-for key in ["MISTRAL_API_KEY", "OPENWEATHER_API_KEY", "TAVILY_API_KEY"]:
+for key in ["COHERE_API_KEY", "OPENWEATHER_API_KEY", "TAVILY_API_KEY"]:
     if not os.getenv(key):
         try:
             os.environ[key] = st.secrets[key]
@@ -169,7 +169,7 @@ def run_until_response(result):
 # ─────────────────────────────────────────
 with st.sidebar:
     st.header("🌆 City Intelligence")
-    st.caption("Weather + News agent, powered by Mistral AI")
+    st.caption("Weather + News agent, powered by COHERE AI")
     st.divider()
     st.toggle(
         "🔒 Require approval for tool calls",
